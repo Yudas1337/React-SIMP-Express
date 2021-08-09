@@ -2,7 +2,8 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const hbs = require('hbs')
-const config = require('./config')
+const config = require('./database/index')
+const QuoteRoutes = require('./routes/QuoteRoutes')
 config.connect();
 
 app.set('views',path.join(__dirname,'views'))
@@ -12,13 +13,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/assets',express.static(path.join(__dirname + '/public')))
 hbs.localsAsTemplateData(app);
 
+app.use(process.env.API_PREFIX, QuoteRoutes)
+
 app.get('/', (req,res) => {
     res.status(201).render('index');
 });
-
-const QuotesRoute = require('./routes/QuotesRoute')
-app.use(QuotesRoute)
-
 
 app.get('*',(req, res) => {
 	res.status(404).render('errors/404_page')
