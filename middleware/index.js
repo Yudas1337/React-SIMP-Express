@@ -30,7 +30,8 @@ module.exports.verifyApiToken = verifyApiToken = (req, res, next) => {
         const apiToken = req.headers['api_token']
         if(typeof apiToken !== 'undefined'){
             if(process.env.API_TOKEN === apiToken){
-                next();
+                res.status(200)
+                next()
             } else{
                 res.status(403).send({
                     error: true,
