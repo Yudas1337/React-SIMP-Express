@@ -14,6 +14,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/assets',express.static(path.join(__dirname + '/public')))
 hbs.localsAsTemplateData(app)
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    next()
+  });
+  
+
 app.use(process.env.API_PREFIX, middleware.verifyApiToken, QuoteRoutes)
 
 app.get('/', (req,res) => {
