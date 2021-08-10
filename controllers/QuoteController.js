@@ -1,10 +1,10 @@
 const Quotes = require('../models/QuoteModel')
-const { quoteValidation } = require('../validation/validation')
+const { validateAddQuote } = require('../validation/validation')
 
 
 module.exports.addQuotes = addQuotes = async(req,res) => {
 
-    const { error } = quoteValidation(req.body)
+    const { error } = validateAddQuote(req.body)
     if(error) return res.status(400).send({
         title: "Validation Error",
         message: error.details[0].message,
@@ -29,7 +29,7 @@ module.exports.addQuotes = addQuotes = async(req,res) => {
 module.exports.deleteQuotes = deleteQuotes = async(req,res) => {
     
     try{
-        const del = await Quotes.findByIdAndDelete(req.params.paramsId)
+        const del = await Quotes.findByIdAndDelete(req.params.id)
         if(del) return res.status(201).send({
             title: "Validation Successfuly",
             message: "Delete Quote Successfuly",
@@ -41,21 +41,22 @@ module.exports.deleteQuotes = deleteQuotes = async(req,res) => {
   
 }
 
-module.exports.updateValidation = updateValidation = async(req,res) => {
-    const { error } = quoteValidation(req.body)
+module.exports.updateQuotes = updateQuotes = async(req,res) => {
+    const { error } = validateAddQuote(req.body)
     if(error) return res.status(400).send({
         title: "Validation Error",
         message: error.details[0].message,
         success: false
     })
-        const quotes = await Quotes.findByIdAndUpdate(req.params.paramsId, req.body)
+    const quotes = await Quotes.findByIdAndUpdate(req.params.id, req.body)
     try{
         const update = await quotes.save()
         if(update) return res.status(201).send({
             title: "Validation Successfuly",
-            message: "Delete Quote Successfuly",
+            message: "Update Data Successfuly",
             success: true
         })
+       
     }catch(error){
        return res.status(500).send(error)
     }
@@ -63,10 +64,6 @@ module.exports.updateValidation = updateValidation = async(req,res) => {
 
 module.exports.countQuotes = countQuotes = async() => {
     return await Quotes.estimatedDocumentCount();
-}
-
-module.exports.getQuotesById = getQuotesById = async(req,res) => {
-    return await Quotes.findById({_id : req.params.paramsId})
 }
 
 module.exports.getAllQuotes = getAllQuotes = async() => {
