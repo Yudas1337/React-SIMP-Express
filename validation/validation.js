@@ -16,3 +16,12 @@ module.exports.validateLogin = validateLogin = (data) => {
     })
     return schema.validate(data)
 }
+
+module.exports.validateAddGreeting = validateAddGreeting = (data) => {
+    const schema = Joi.object({
+        hours: Joi.string().required(),
+        text: Joi.string().min(6).required()
+
+    })
+    return schema.validate(data)
+}
