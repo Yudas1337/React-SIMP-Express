@@ -12,6 +12,7 @@ module.exports.login = login = async(req,res) => {
         success: false
     })
     const user = await User.findOne({email:req.body.email})
+    const salt = await bcrypt.genSalt(10)
     if(!user)  return res.status(400).send({
         title: "Validation Error",
         message: 'Email Not Found',

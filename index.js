@@ -16,10 +16,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/assets',express.static(path.join(__dirname + '/public')))
 hbs.localsAsTemplateData(app)
-
-
-app.use(process.env.API_PREFIX, middleware.verifyApiToken, QuoteRoutes)
-app.use(process.env.API_PREFIX, middleware.verifyApiToken, AuthRoutes)
+app.use(middleware.verifyApiToken)
+app.use(process.env.API_PREFIX, AuthRoutes)
+app.use(process.env.API_PREFIX, QuoteRoutes)
 
 app.get('/', (req,res) => {
     res.status(201).render('index');
