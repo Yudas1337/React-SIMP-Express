@@ -4,11 +4,12 @@ const app = express()
 const hbs = require('hbs')
 const config = require('./database/index')
 const QuoteRoutes = require('./routes/QuoteRoutes')
+const GreetingRoutes = require('./routes/GreetingRoutes')
 const AuthRoutes = require('./routes/AuthRoutes')
 const VerifyTokenRoutes = require('./routes/VerifyTokenRoutes')
 const middleware = require('./middleware/index')
 const cors = require('cors')
-config.connect();
+config.connect()
 
 app.use(cors())
 app.set('views',path.join(__dirname,'views'))
@@ -23,6 +24,7 @@ app.get('/', (req,res) => {
 app.use(process.env.API_PREFIX, middleware.verifyApiToken, VerifyTokenRoutes)
 app.use(process.env.API_PREFIX, middleware.verifyApiToken, AuthRoutes)
 app.use(process.env.API_PREFIX, middleware.verifyApiToken, QuoteRoutes)
+app.use(process.env.API_PREFIX, middleware.verifyApiToken, GreetingRoutes)
 app.get('*',(req, res) => {
 	res.status(404).render('errors/404_page')
 })
