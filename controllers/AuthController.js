@@ -1,8 +1,8 @@
 
 const { validateLogin } = require('../validation/validation')
-const jwt = require('jsonwebtoken')
 const User = require('../models/UserModel')
 const bcrypt = require('bcryptjs')
+const token = require('./TokenController')
 
 module.exports.login = login = async(req,res) => {
     const {error} = validateLogin(req.body)
@@ -22,11 +22,7 @@ module.exports.login = login = async(req,res) => {
     if(validPass) {
         return res.status(200).send({
             message: 'Authentication Success',
-            token: jwt.sign({
-                _id: user._id,
-                username:user.username,
-                email: user.email
-            }, process.env.JWT_SECRET,{ expiresIn: '60m' }),
+            token: token.generateToken(user),
             success:true,
         })
     } 
