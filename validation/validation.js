@@ -19,7 +19,7 @@ module.exports.validateLogin = validateLogin = (data) => {
 
 module.exports.validateAddGreeting = validateAddGreeting = (data) => {
     const schema = Joi.object({
-        hours: Joi.string().required(),
+        hours: Joi.required(),
         text: Joi.string().min(6).required()
 
     })
