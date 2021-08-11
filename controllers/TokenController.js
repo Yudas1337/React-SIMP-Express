@@ -8,7 +8,7 @@ module.exports.generateToken = generateToken = (user) => {
     }, process.env.JWT_SECRET,{ expiresIn: '60m' })
 }
 
-module.exports.verifyToken = verifyToken = (req,res,next) => {
+module.exports.verifyToken = verifyToken = (req,res) => {
     try{
         const bearerToken = req.headers['authorization']
         if(typeof bearerToken !== 'undefined'){
