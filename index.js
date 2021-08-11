@@ -5,6 +5,7 @@ const hbs = require('hbs')
 const config = require('./database/index')
 const QuoteRoutes = require('./routes/QuoteRoutes')
 const AuthRoutes = require('./routes/AuthRoutes')
+const VerifyTokenRoutes = require('./routes/VerifyTokenRoutes')
 const middleware = require('./middleware/index')
 const cors = require('cors')
 config.connect();
@@ -19,6 +20,7 @@ hbs.localsAsTemplateData(app)
 app.get('/', (req,res) => {
     res.status(201).render('index');
 });
+app.use(process.env.API_PREFIX, middleware.verifyApiToken, VerifyTokenRoutes)
 app.use(process.env.API_PREFIX, middleware.verifyApiToken, AuthRoutes)
 app.use(process.env.API_PREFIX, middleware.verifyApiToken, QuoteRoutes)
 app.get('*',(req, res) => {
