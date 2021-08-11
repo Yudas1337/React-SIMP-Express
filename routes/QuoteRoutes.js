@@ -9,17 +9,15 @@ QuoteRoutes.get('/quotes/getData', async(req,res)=> {
      })
 })
 
-QuoteRoutes.use(middleware.verifyBearerToken)
-
-QuoteRoutes.post('/quotes/addData', async(req,res)=> {
+QuoteRoutes.post('/quotes/addData', middleware.verifyBearerToken, async(req,res)=> {
     await controller.addQuotes(req,res)
 })
 
-QuoteRoutes.put('/quotes/update/:id', async(req,res) => {
+QuoteRoutes.put('/quotes/update/:id', middleware.verifyBearerToken, async(req,res) => {
     await controller.updateQuotes(req,res)
   })
 
-QuoteRoutes.delete('/quotes/delete/:id', async(req,res) => {
+QuoteRoutes.delete('/quotes/delete/:id', middleware.verifyBearerToken, async(req,res) => {
   await controller.deleteQuotes(req,res)
 })
 

@@ -19,12 +19,10 @@ hbs.localsAsTemplateData(app)
 app.get('/', (req,res) => {
     res.status(201).render('index');
 });
-
+app.use(process.env.API_PREFIX, middleware.verifyApiToken, AuthRoutes)
+app.use(process.env.API_PREFIX, middleware.verifyApiToken, QuoteRoutes)
 app.get('*',(req, res) => {
 	res.status(404).render('errors/404_page')
 })
-app.use(middleware.verifyApiToken)
-app.use(process.env.API_PREFIX, AuthRoutes)
-app.use(process.env.API_PREFIX, QuoteRoutes)
 
 app.listen(process.env.PORT)
