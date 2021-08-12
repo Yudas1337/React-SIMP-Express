@@ -25,3 +25,26 @@ module.exports.validateAddGreeting = validateAddGreeting = (data) => {
     })
     return schema.validate(data)
 }
+
+module.exports.validateConfigs = validateConfigs = (data) => {
+    const schema = Joi.object({
+        copyrights: Joi.string().required(),
+        favColor: Joi.string().required(),
+        specialMsg: Joi.string().required()
+
+    })
+    return schema.validate(data)
+}
+
+module.exports.validateNewPassword = validateNewPassword = (data) => {
+    const schema = Joi.object({
+        oldPass: Joi.string().required().trim(),
+        newPass: Joi.string().min(6).required().trim(),
+        repeatPass: Joi.string().equal(Joi.ref('newPass')).min(6).required().trim()
+        .label('Confirm Password').options({
+            messages : {'string.only': '{{#label}} does not match'}
+        })
+
+    })
+    return schema.validate(data)
+}
