@@ -8,6 +8,14 @@ module.exports.generateToken = generateToken = (user) => {
     }, process.env.JWT_SECRET,{ expiresIn: '60m' })
 }
 
+module.exports.getUserByJwt = getUserByJwt = (req) => {
+    const bearerToken = req.headers['authorization']
+    const bearer = bearerToken.split(' ')
+    const token = bearer[1]
+    const user = jwt.verify(token, process.env.JWT_SECRET)
+    return user
+}
+
 module.exports.verifyToken = verifyToken = (req,res) => {
     try{
         const bearerToken = req.headers['authorization']
